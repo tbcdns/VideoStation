@@ -2,9 +2,9 @@
 
 -- INSTALLATION
 
-	- Télécharger le package PACKAGE/VideoStation-latest.spk.
-	- Installer le package dans le DSM sous 'centre de packages'.
-	- Accéder depuis votre navigateur à l'adresse http://votreip/video.
+	- Téléchargez le package PACKAGE/VideoStation-latest.spk.
+	- Installez le package dans le DSM sous 'centre de packages'.
+	- Accédez depuis votre navigateur à l'adresse http://votreip/video.
 	- Logguez-vous en tant qu'"admin".
 	- Remplissez les informations relatives à l'installation du package.
 
