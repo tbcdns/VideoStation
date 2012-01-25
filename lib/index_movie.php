@@ -8,7 +8,7 @@ require('API-TMDb.php');
 require('functions.php');
 connect($PASSWORD_SQL,$DATABASE);
 
-$link=$_GET['link'];
+$link=urldecode($_GET['link']);
 
 
 

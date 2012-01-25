@@ -287,6 +287,7 @@ function index_auto($dir,$HIDDEN_FILES,$ext){
 	echo 'var i = 1;';
 	echo "\n";
 	echo '$.each(tabnonindexed, function(index, value){
+			value = encodeURIComponent(value);
 			$.ajax({
   				type: "GET",
   				url: "lib/index_movie.php",
