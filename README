@@ -13,6 +13,6 @@
 -- BUGS
 
 	- FIX : Orthographe du mot 'Accueil'
-	- Problème lorsqu'un nom de fichier contient le symbole '&'
+	- Problème de rafraîchissement des pages lorsqu'un nom de fichier contient le symbole '&'
 
 -- PROPOSITIONS
