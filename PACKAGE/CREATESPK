@@ -1,0 +1,81 @@
+#!/bin/sh
+cd ..
+#REMOVE OLD PACKAGES
+if [ -f PACKAGE/package.tgz ]; then
+rm PACKAGE/package.tgz
+fi
+if [ -f PACKAGE/VideoStation-*.spk ]; then
+rm PACKAGE/VideoStation-*.spk
+fi
+
+#COPY FILES TO PACKAGE/video
+echo copy files
+cp admin.php index.php INSTALL.php list_non_indexed.php list_wrong_indexed.php login.php README update.php video.php PACKAGE/video
+echo copy dir
+cp -R css/ PACKAGE/video/css
+cp -R images/ PACKAGE/video/images
+cp -R js/ PACKAGE/video/js
+cp -R lib/ PACKAGE/video/lib
+
+#DELETE ALL POSTERS
+echo remove poster_small images
+rm PACKAGE/video/images/poster_small/*
+
+#REWRITE config.php
+echo write in config.php
+echo '<?php
+	$APP_NAME = "Video Station";
+	$PASSWORD_SQL = "";
+	$DATABASE = "video";
+	$PORT_SYNO = "5000";
+	$EXT = array("avi","mkv","mpg","mov");
+	$HIDDEN_FILES = array(".","..","index.php","index.php~","index.css",".htaccess","Thumbs.db","@eaDir",".DS_Store","images","css","js");
+	$DELETED_WORDS = array("avi","mkv","mpg","mov","dvdrip","truefrench","french","xvid","divx","vostfr","hdtv","x264","bluray","dts","multi");
+	$SERIES_DIR = "./video/Series/";
+	$MOVIES_DATABASE = "TMDb" ;
+	$SERIES_DATABASE = "Allocine" ;
+	$LANGUAGE = "fr";
+	$LOGIN = TRUE;
+	$MODAL = TRUE;
+	$FTP = FALSE;
+	$INDEXATION_AUTO = TRUE;
+	$INSTALL = TRUE;
+?>' > PACKAGE/video/lib/config.php
+
+#MAKE package.tgz
+cd PACKAGE
+tar czf package.tgz video/ desktop/
+if [ -f package.tgz ]; then
+echo 'package.tgz créé'
+fi
+
+#FIND THE OLD VERSION AND ASK FOR THE NEW ONE
+version=`awk -Fversion= '{print $2}' INFO`
+read -p "Version (old:${version:2:7}): " newversion
+
+#REWRITE INFO
+echo "package=\"VideoStation\"
+version=\"$newversion\"
+description=\"VideoStation est une application web qui vous permet de récupérer différentes informations sur les vidéos de votre DiskStation au moyen de la base de données d'Allocine ou de 'The Movie Database'.\"
+maintainer=\"Thibaud Chardonnens\"
+adminurl=\"/video/\"
+arch=\"noarch\"" > INFO
+
+#MAKE VideoStation-x.x-xxx.spk
+tar -cvf "VideoStation-${newversion}.spk" INFO PACKAGE_ICON.PNG scripts/ package.tgz
+if [ -f VideoStation-*.spk ]; then
+echo "VideoStation-${newversion}.spk créé"
+fi
+
+#DELETE ALL THE FILES AND FOLDERS
+cd video/
+rm -rf *
+
+#UPDATE THE GIT REPOSITORY
+cd ../../
+git add PACKAGE/VideoStation-${newversion}.spk
+git commit -m "update SPK to ${newversion}"
+git push origin master
+
+exit 0
+
