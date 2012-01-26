@@ -9,14 +9,21 @@ $moviesinbase = moviesinbase();
 foreach ($moviesinbase as $movie){
 	if(!in_array($movie,$listmovies)){
 	$renamed[] = $movie;//movies in the database but not in the folders list
-	//mysql_query('DELETE FROM movies WHERE link="'.addslashes($data['link']).'"') or die ('Erreur SQL : '.mysql_error());
+	$old_link = explode('/',$movie);
+	$old_link = array_reverse($old_link);
+	mysql_query('DELETE FROM movies WHERE link="'.htmlspecialchars(addslashes($old_link[0])).'"') or die ('Erreur SQL : '.mysql_error());
 	//mysql_query("DELETE FROM movie_genre WHERE fk_id_movie = '".$data['id_movie']."'") or die ('Erreur SQL '.mysql_error());
 	}	
 }
 foreach($listmovies as $movie){
 	if(!in_array($movie,$moviesinbase)) $nonindexed[] = $movie;//movies in the folders list but not in the database
 }
-print_r($renamed);
+if(count($renamed) > 0) {
+echo 'Fichiers renom&eacute;s :<br>';
+foreach($renamed as $renamed_file){
+echo '-'.$renamed_file.'<br>';
+}
+}
 $tot = count($nonindexed);
 if(!empty($tot)){
 natcasesort($nonindexed);
@@ -33,12 +40,12 @@ for($j=0;$j<count($separate)-1;$j++){
 $rep .= $separate[$j];
 if($j != (count($separate)-2)) $rep .= '/';
 }
-echo '<p id="'.$key.'" class="movie"><span class="dir" style="font-size:80%;">'.$rep.'</span> - <span class="link" style="font-size:80%;">'.$link.'</span><span class="complete"></span></p>';
+echo '<p id="'.$key.'" class="movie"><span class="dir" style="font-size:80%;">'.$rep.'</span> - <span class="link" rel="'.urlencode($link).'" style="font-size:80%;">'.$link.'</span><span class="complete"></span></p>';
 
 
 }
 }
-else echo 'Toutes les videos sont indexes';
+else echo '<p style="text-align:center;width:100%;"><img src="images/check.png" alt="Ok">Toutes les vid&eacute;os sont index&eacute;es</p>';
 
  ?>
  <script>
@@ -49,7 +56,7 @@ $('#index').click(function(){
 	var i = 1;
 	$('p.movie').each(function(){
 		var rep = $(this).children('.dir').html();
-		var link = $(this).children('.link').html();
+		var link = $(this).children('.link').attr("rel");
 		var key = $(this).attr('id');
 		$.ajax({
   				type: "GET",

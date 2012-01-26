@@ -48,6 +48,8 @@ $nb_entree_bdd = mysql_num_rows($req);
 <!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/jquery-ui.min.js"></script>-->
 <script type="text/javascript" src="http://code.jquery.com/ui/jquery-ui-git.js"></script>
 <script type="text/javascript" src="js/jquery.nyroModal.custom.min.js"></script>
+<script type="text/javascript" src="js/jquery.tools.min.js"></script>
+
 <style>.ui-progressbar-value { background-image: url(css/images/pbar-ani.gif); }</style>
 </head>
 <body>
@@ -155,19 +157,38 @@ while ($data = mysql_fetch_array($req)){
 	if (is_file('images/poster_small/'.$affiche.'.jpg')){
 		echo '<a href="#null" rel="'.$data['id_movie'].'"';
 		if ($MODAL) echo 'class="opener movielist"';
-		echo '><img src="images/poster_small/'.$affiche.'.jpg" alt="'.$data['name'].'"></a>';
+		echo '><img src="images/poster_small/'.$affiche.'.jpg" alt="'.$data['name'].'" class="poster"></a>';
 	}
 	else { 
 	if($data['id_movie'] != '0' and $data['id_movie'] != '0-0-0') echo '<a href="#null" rel="'.$data['id_movie'].'" class="opener movielist">';
-	echo '<img src="images/movie.png" style="margin-top:20%;" alt="Film">';
+	echo '<img src="images/movie.png" style="margin-top:20%;" alt="Film" class="poster">';
 	if($data['id_movie'] != '0' and $data['id_movie'] != '0-0-0') echo '</a>';
 	}
+	//DIV TOOLTIP
+	echo '<div class="tooltip">
+	<table border="0"';
+	if(!$root) echo 'style="margin-left:20px;"';
+	echo '><tr>';
+	if($data['id_movie'] != '0' and $data['id_movie'] != '0-0-0') echo '<td><a href="#null" rel="'.$data['id_movie'].'" class="opener movielist"><img src="images/info.png" alt="Info"></a></td>';
+	echo '<td><a href="';
+	if($FTP) echo 'ftp://'.$_SERVER['SERVER_NAME'].'/'.$data['dir'].'/'.$data['link'];
+	else echo $data['dir'].'/'.$data['link'];
+	echo '" class="movielist" title="'.$data['link'].'"><img src="images/down.png"></a></td>';
+	if($root) echo '<td><a href="update.php?link='.urlencode($data['link']).'&oldcode='.$data['id_movie'].'" class="nyroModal"><img src="images/update.png"></a></td>';
+	echo '</tr>
+	<tr>';
+	if($data['id_movie'] != '0' and $data['id_movie'] != '0-0-0') echo '<td>'.infos.'</td>';
+	echo '<td>'.link.'</td>';
+	if($root and !is_serie($SERIES_DIR)) echo '<td>'.update.'</td>';
+	echo '</tr>
+	</table>
+	</div>';
+	// /DIV TOOLTIP
 	echo '<div class="title"><h5><a href="';
 	if($FTP) echo 'ftp://'.$_SERVER['SERVER_NAME'].'/'.$data['dir'].'/'.$data['link'];
 	else echo $data['dir'].'/'.$data['link'];
 	echo '" class="movielist" title="'.$data['link'].'">'.length($data['name'],22).'</a></h5><p>'.$data['year'].'</p></div>';
 	echo '<div class="stars">'.stars($data['note']).'</div>';
-	if($root and !is_serie($SERIES_DIR)) echo '<div><a href="update.php?link='.$data['link'].'&oldcode='.$data['id_movie'].'" class="nyroModal"><input type="button" value="'.update.'"></a></div>';
 	echo '</li>';
 	$i++;
 }
@@ -186,7 +207,17 @@ while ($data = mysql_fetch_array($req)){
 <!-- /FOOTER -->
 <script type="text/javascript">
 $(document).ready(function(){
+	$('button').button();
 	$('.nyroModal').nyroModal();
+	
+	$('.poster').tooltip({ 
+		effect: 'slide', 
+		predelay:1100, 
+		delay:600,
+		opacity:1,
+		offset:[15, 0]
+		});
+	
 	
 	$('#search').button({
 	icons: {
@@ -197,7 +228,7 @@ $(document).ready(function(){
         });
 	$('input[type="text"]').buttonset();
 
-	$('#content ul li img').hover(function(){
+	$('#content ul li img.poster').hover(function(){
 	$(this).addClass('gallerie_onMouse');
 	},
 	function(){

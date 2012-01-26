@@ -12,6 +12,7 @@ echo '<p rel="'.$data['id_movie'].'"><span class="link">'.$data['link'].'</span>
 ?>
 
 <script>
+$('button').button();
 $('.nyroModal').nyroModal();
 $('a.opener').click(function(){
 			

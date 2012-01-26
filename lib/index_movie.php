@@ -12,9 +12,9 @@ $link=urldecode($_GET['link']);
 
 
 
-$sql = mysql_query("SELECT link FROM movies WHERE link='".addslashes($link)."'");
+$sql = mysql_query("SELECT link FROM movies WHERE link='".htmlspecialchars(addslashes($link))."'");
 $data=mysql_fetch_array($sql);
-if(!empty($data['link'])) $sql = mysql_query("DELETE FROM movies WHERE link='".addslashes($link)."'");
+if(!empty($data['link'])) $sql = mysql_query("DELETE FROM movies WHERE link='".htmlspecialchars(addslashes($link))."'");
 
 
 
@@ -57,7 +57,7 @@ if(is_serie($SERIES_DIR)){//indexation series
 		$id.='-'.$code_season;
 		$season = $series->seasonInfos($code_season);//infos saison
 		if (empty($season['code'])){
-			$sql = "INSERT INTO movies VALUES(\"".$serie['code']."-0-0\",\"".addslashes($link)."\",\"".addslashes($link)."\",\"0\",\"0\",\"".$size."\",\"".addslashes($_GET['rep'])."\")";
+			$sql = "INSERT INTO movies VALUES(\"".$serie['code']."-0-0\",\"".htmlspecialchars(addslashes($link))."\",\"".addslashes($link)."\",\"0\",\"0\",\"".$size."\",\"".addslashes($_GET['rep'])."\")";
 			mysql_query ($sql) or die('Erreur SQL !'.$sql.'<br>'.mysql_error());
 		}
 		else {
@@ -87,7 +87,7 @@ if(is_serie($SERIES_DIR)){//indexation series
 			}
 			if (strlen($nbSeason) == 1) $nbSeason = '0'.$nbSeason;
 			if (strlen($nbEpisode) == 1) $nbEpisode = '0'.$nbEpisode;
-			$sql = "INSERT INTO movies VALUES(\"".$id."\",\"".addslashes($link)."\",\"".addslashes('[S'.$nbSeason.'E'.$nbEpisode.']'.$episode['titre'])."\",\"".$episode['note-public']."\",\"".$episode['date']."\",\"".$size."\",\"".addslashes($_GET['rep'])."\")";
+			$sql = "INSERT INTO movies VALUES(\"".$id."\",\"".htmlspecialchars(addslashes($link))."\",\"".addslashes('[S'.$nbSeason.'E'.$nbEpisode.']'.$episode['titre'])."\",\"".$episode['note-public']."\",\"".$episode['date']."\",\"".$size."\",\"".addslashes($_GET['rep'])."\")";
 			mysql_query ($sql) or die('Erreur SQL !'.$sql.'<br>'.mysql_error());
 		echo $link.' indexe en tant que serie';
 		}
@@ -109,7 +109,7 @@ else {//indexation films
 		mysql_query ($sql) or die('Erreur SQL !'.$sql.'<br>'.mysql_error());
 	}
 	else { //si film trouve
-    	$sql = "INSERT INTO movies VALUES(\"".$recherche['code']."\",\"".addslashes($link)."\",\"".addslashes($recherche['titre'])."\",\"".$recherche['note-public']."\",\"".$recherche['annee']."\",\"".$size."\",\"".addslashes($_GET['rep'])."\")";
+    	$sql = "INSERT INTO movies VALUES(\"".$recherche['code']."\",\"".htmlspecialchars(addslashes($link))."\",\"".addslashes($recherche['titre'])."\",\"".$recherche['note-public']."\",\"".$recherche['annee']."\",\"".$size."\",\"".addslashes($_GET['rep'])."\")";
 		mysql_query ($sql) or die('Erreur SQL !'.$sql.'<br>'.mysql_error()); 
 		if(!empty($recherche['affiche'])){
 			//echo $recherche['affiche'];

@@ -183,7 +183,7 @@ nav {
 			font-size: smaller;
 			margin-top : -15px;
 		}
-		#content ul.movielist li img{
+		#content ul.movielist li img.poster{
 			border-radius: 0.4em;
 			box-shadow: 2px 2px 12px #000;
 			margin-top:2px;
@@ -234,3 +234,26 @@ footer {
 
 
 }
+
+.tooltip {
+	display:none;
+	background:url(images/tooltip/black_arrow.png);
+	height:70px;
+	padding:40px 30px 10px 30px;
+	width:150px;
+	font-size:11px;
+	color:#fff;
+}
+	div.tooltip table{
+		margin-top:-20px;
+		margin-left:auto;
+		margin-right:auto;
+		text-align:center;
+	}
+	div.tooltip table tr td{
+	width:50px;
+	}
+	div.tooltip table tr td img{
+	width:40px;
+	height:40px;
+	}

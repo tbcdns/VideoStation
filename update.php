@@ -10,7 +10,7 @@ $(function() {
 </script>
 <nav>
 <?php
-echo '<div><h2>Modification de '.$_GET['link'].'</h2></div>';
+echo '<div><h2>Modification de '.urldecode($_GET['link']).'</h2></div>';
 ?>
 </nav>
 <div id="content">
@@ -21,7 +21,7 @@ if($_GET['oldcode'] != 0){
 $sql = "DELETE FROM movie_genre WHERE fk_id_movie = '".$_GET['oldcode']."'";
 mysql_query($sql) or die ('Erreur SQL '.mysql_error());
 }
-$sql = 'UPDATE movies SET id_movie="'.$_GET['code'].'", note="'.$_GET['note'].'", name="'.$_GET['name'].'", year="'.$_GET['year'].'" WHERE link="'.$_GET['link'].'"';
+$sql = 'UPDATE movies SET id_movie="'.$_GET['code'].'", note="'.$_GET['note'].'", name="'.$_GET['name'].'", year="'.$_GET['year'].'" WHERE link="'.urldecode($_GET['link']).'"';
 mysql_query($sql) or die ('Erreur SQL : '.mysql_error());
 	$allo = new AlloCine();
 	$infos = $allo->movieInfos($_GET['code']);
@@ -102,14 +102,14 @@ if(isset($_POST['recherche'])){
 		else echo '<td></td>';
 		if ($recherche[$i]['annee'] != '0') echo '<td style="text-align:center;">'.$recherche[$i]['annee'].'</td>';	
 		else echo '<td></td>';
-		echo '<td style="text-align:center;"><a href="update.php?link='.$_GET['link'].'&code='.$recherche[$i]['code'].'&note='.$recherche[$i]['note-public'].'&name='.addslashes($recherche[$i]['titre']).$img_link.'&year='.$recherche[$i]['annee'].'&oldcode='.$_GET['oldcode'].'" class="nyroModal"><input type="button" value="Selectionner"></a></td>';
+		echo '<td style="text-align:center;"><a href="update.php?link='.urlencode($_GET['link']).'&code='.$recherche[$i]['code'].'&note='.$recherche[$i]['note-public'].'&name='.addslashes($recherche[$i]['titre']).$img_link.'&year='.$recherche[$i]['annee'].'&oldcode='.$_GET['oldcode'].'" class="nyroModal"><input type="button" value="Selectionner"></a></td>';
 		echo '</tr>';
 	}
 	echo '</table>';
 }
 ?>
 <br />
-<form method="POST" action="update.php?link=<?php echo $_GET['link']; ?>&oldcode=<?php echo $_GET['oldcode']; ?>" class="nyroModal" style="text-align:center;">
+<form method="POST" action="update.php?link=<?php echo urlencode($_GET['link']); ?>&oldcode=<?php echo $_GET['oldcode']; ?>" class="nyroModal" style="text-align:center;">
 <?php if(isset($_POST['recherche'])) echo 'Nouvelle recherche : '; else echo 'Rechercher un film : '; ?><input type="text" name="recherche" class="form">
 <input type="submit" value="Rechercher" class="form">
 </form>

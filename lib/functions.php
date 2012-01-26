@@ -256,7 +256,7 @@ function index_auto($dir,$HIDDEN_FILES,$ext){
 	$base_movies = array();
 	$nonindexed = array();
 	while($data = mysql_fetch_array($req)){
-		$base_movies[] = $data['link'];
+		$base_movies[] = htmlspecialchars_decode($data['link']);
 	}
 	if ($handle = opendir($dir)) {
 		while (false !== ($file = readdir($handle))) {
@@ -428,7 +428,7 @@ function moviesinbase(){
 	$req = mysql_query($sql) or die ('Erreur SQL : '.mysql_error());
 	$stocked_links = array();
 	while ($data=mysql_fetch_array($req)){
-		$stocked_links[] = $data['dir'].'/'.$data['link'];
+		$stocked_links[] = $data['dir'].'/'.htmlspecialchars_decode(stripslashes($data['link']));
 	}
 	
 	return $stocked_links;

@@ -4,8 +4,8 @@ cd ..
 if [ -f PACKAGE/package.tgz ]; then
 rm PACKAGE/package.tgz
 fi
-if [ -f PACKAGE/VideoStation-*.spk ]; then
-rm PACKAGE/VideoStation-*.spk
+if [ -f PACKAGE/VideoStation-latest.spk ]; then
+rm PACKAGE/VideoStation-latest.spk
 fi
 
 #COPY FILES TO PACKAGE/video
@@ -46,7 +46,7 @@ echo '<?php
 cd PACKAGE
 tar czf package.tgz video/ desktop/
 if [ -f package.tgz ]; then
-echo 'package.tgz créé'
+echo 'package.tgz create'
 fi
 
 #FIND THE OLD VERSION AND ASK FOR THE NEW ONE
@@ -61,10 +61,10 @@ maintainer=\"Thibaud Chardonnens\"
 adminurl=\"/video/\"
 arch=\"noarch\"" > INFO
 
-#MAKE VideoStation-x.x-xxx.spk
-tar -cvf "VideoStation-${newversion}.spk" INFO PACKAGE_ICON.PNG scripts/ package.tgz
-if [ -f VideoStation-*.spk ]; then
-echo "VideoStation-${newversion}.spk créé"
+#MAKE VideoStation-latest.spk
+tar -cvf "VideoStation-latest.spk" INFO PACKAGE_ICON.PNG scripts/ package.tgz
+if [ -f VideoStation-latest.spk ]; then
+echo "VideoStation-latest.spk create"
 fi
 
 #DELETE ALL THE FILES AND FOLDERS
@@ -73,8 +73,8 @@ rm -rf *
 
 #UPDATE THE GIT REPOSITORY
 cd ../../
-git add PACKAGE/VideoStation-${newversion}.spk
-git commit -m "update SPK to ${newversion}"
+git add PACKAGE/VideoStation-latest.spk
+git commit -m "SPK version: ${newversion}"
 git push origin master
 
 exit 0
