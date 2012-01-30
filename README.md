@@ -2,7 +2,7 @@
 
 ##1. Installation
 
-	- Téléchargez le package PACKAGE/VideoStation-latest.spk.
+	- Téléchargez le package [VideoStation-latest.spk](https://github.com/teebo/VideoStation/blob/master/PACKAGE/VideoStation-latest.spk?raw=true).
 	- Installez le package dans le DSM sous 'centre de packages'.
 	- Accédez depuis votre navigateur à l'adresse http://votreip/video.
 	- Logguez-vous en tant qu'"admin".
