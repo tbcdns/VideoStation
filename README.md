@@ -1,4 +1,4 @@
-			# --- VideoStation Synology Package ---
+#                    === VideoStation Synology Package ===
 
 ##-- INSTALLATION
 
