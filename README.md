@@ -2,9 +2,9 @@
 
 ##1. Informations générales
 
-*Cette application est destinée uniquement au possesseur d'un NAS [Synology](http://www.synology.com). 
-*Son but est de gérer vos vidéos afin de les rendres accessibles via internet ainsi que de récupérer certaines informations provenant de la base de données [Allocine](http://www.allocine.fr) et/ou [TMDb](http://www.themoviedatabase.org).
-*En aucun cas elle ne permet de télécharger illégalement des vidéos.
+* Cette application est destinée uniquement au possesseur d'un NAS [Synology](http://www.synology.com). 
+* Son but est de gérer vos vidéos afin de les rendres accessibles via internet ainsi que de récupérer certaines informations provenant de la base de données [Allocine](http://www.allocine.fr) et/ou [TMDb](http://www.themoviedatabase.org).
+* En aucun cas elle ne permet de télécharger illégalement des vidéos.
 
 ##2. Installation
 
